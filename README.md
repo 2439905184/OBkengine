@@ -1,0 +1,2 @@
+# OBkengine
+Obkengine不是一个avg游戏引擎，它以自己的方式解释运行bkengine的游戏
