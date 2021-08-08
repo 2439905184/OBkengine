@@ -1,0 +1,52 @@
+﻿*main
+@jump file="title.bkscr" label="*title"
+
+/*
+//背景
+[sprite index=0 file="bg/20.jpg"]
+[addto index=0 target=basic_layer pos=[0,0] zorder=0 opacity=255]
+//人物
+[sprite index=1 file="sprite/hua.png"]
+[addto index=1 target=basic_layer pos=[0,0] zorder=5 opacity=255]
+【旁白】[r]
+有一个人前来买瓜[p]
+【华强】[r]
+哥们，这瓜多少钱一斤哪[p]
+【老板】[r]两块钱一斤[p]
+【华强】[r]这瓜皮子是金子做的，还是这瓜粒子是金子做的[p]
+【老板】[r]你瞧瞧现在哪有瓜啊，这都是大棚的瓜。你嫌贵我还嫌贵呢[p]
+【华强】[r]给我挑一个[p]
+【老板】[r]这个怎么样[p]
+【华强】[r]这瓜保熟吗[p]
+【老板】[r]我开水果摊的，能卖给你生瓜蛋子[p]
+【华强】[r]我问你，这瓜保熟吗[p]
+//bgm
+@bgm file="bgm/asia.mp3"
+@sprite index=2 file="sprite/boss_angery.png"
+[addto index=2 target=basic_layer pos=[0,0] zorder=5 opacity=255]
+@remove index=1
+【老板】[r]你是故意找茬是不是，你要不要吧[p]
+@remove index=2
+@addto index=1 pos=[0,0] target=basic_layer
+@bgm file="bgm/fresh.mp3"
+【华强】[r]你这瓜要熟，我肯定要啊[p]
+
+【华强】[r]那它要是不熟怎么办啊[p]
+【老板】[r]要是不熟，你劈了我，满意了吧[p]
+【老板】[r]15斤，30块[p]
+【华强】[r]你这哪够15斤那，你这称有问题啊[p]
+@bgm file="bgm/asia.mp3"
+【老板】[r]你tm故意找茬是不是，你要不要吧。你要不要[p]
+【华强】[r]翻开称，吸铁石[p]
+【华强】[r]另外你说的，这瓜要是生的，你自己吞进去，啊[p]
+//选项 劈还是不劈 
+【老板】[r]你tm劈我瓜是吧[p]
+//画面过渡
+@bgm file="bgm/fancyball.mp3"
+@remove index=0
+@sprite index=0 file="sprite/eve04.jpg"
+@addto index=0 pos=[0,0] target=basic_layer
+【华强】[r]生瓜，你说的，生的就劈你
+【伙计】[r]萨日朗，萨日朗~~[p]
+
+//骑着电动车离开*/

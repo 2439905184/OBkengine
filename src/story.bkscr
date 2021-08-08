@@ -1,0 +1,61 @@
+﻿*a
+@basic_dialogbox 
+//清屏 音乐停止+切换
+//index 10为基准0 //莉莉丝是华强女儿名字
+@stop
+@removeall delete=true index=0
+#var spr_index=10
+@bgm file="bgm/mektaba.mp3"
+@sprite index=10 file="image/bg/town.jpg"
+@addto index=10 target=basic_layer
+//莉莉丝
+@sprite file="" index=101
+#spr_index+=1
+这是一个安静而又和谐的小镇，阳光明媚。这天正好是华强女儿的生日。[p]
+@bgm file="bgm/秋山裕和,sentive - Slow time.mp3" loop=true 
+【莉莉丝】[r]
+“杀人凶手”回来了！[p]
+【华强】[r]
+你个小兔崽子，也是够了，算了我不和你计较，作业做的怎么样了，给我看看，还有这次试卷。[p]
+【莉莉丝】[r]
+做完了，不想给你看，看了你又会像上次一样生气吧，不给你看，也是为了爸爸的健康着想[p]
+【华强】[r]
+我这不是关心你吗，听话，让我看看！[p]
+【莉莉丝】[r]
+不要！[p]
+【华强】[r]
+你让我看看作业正不正常啊，看了，我就给你买一车薯片和好吃的。[p]
+【莉莉丝】[r]
+emm，但是我是个有原则的人，不会这么轻易就被你收买的[p]
+【华强】[r]
+你要什么都答应你，还可教你赚钱哦，你不是赚钱开公司吗，之前还大闹了一场，想对你的初中老师出一口气吗[p]
+【莉莉丝】[r]
+@bgm file="bgm/秋山裕和,sentive - 過去の記憶.mp3" loop=true 
+@remove index=10
+@sprite index=11 file="image/bg/classRoom.jpg" 
+@trans mode="crossfade" index=11 time=3000
+@addto index=11 target=basic_layer
+@effect mode="BC" target=11 bright=-50
+....[p]
+//开始叙事
+【莉莉丝】[r]
+不行，说什么也不能老师拿走我的画，这是我的底线。[p]
+【莉莉丝】[r]
+我要坚持我的底线，保护我最重要的东西，老师根本不懂我的内心。[p]
+【莉莉丝】[r]
+那个样子，看上去那么凶，怎么好意思问问题吗...[p]
+【莉莉丝】[r]
+老师一定是在嘲讽我，那语气，眼神，根本就没看的起我。[p]
+【莉莉丝】[r]
+... 把我的本子还给我！[p]
+【老师】[r]
+这个时代要靠白手起家，几乎是不可能的，大部分只能靠学习。[p]
+//叙事结束
+@bgm file="bgm/秋山裕和,sentive - Slow time.mp3" loop=ture fadein=1000
+@addto index=10 target=basic_layer
+@trans mode="turn" index=10 time=3000
+【莉莉丝】[r]
+好，我答应你，你一定要说话算话[p]
+【华强】[r]//动作
+拿过作业看了一眼，其他学科都行，就数学不行，算了，今天女儿生日，不要和她计较[p]
+@jump file="kill.bkscr" label="*kill"

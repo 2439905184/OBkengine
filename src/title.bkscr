@@ -1,0 +1,24 @@
+﻿*title
+@bgm file="bgm/title.mp3"
+@sprite file="image/BG32a_1280.jpg" index=0
+@pretrans 
+@trans mode="universal" rule="mask/001.png" time=3000 
+@addto index=0 target=basic_layer
+@event name="aa" type="jump"  file="story.bkscr" label="*a" stable=false 
+@button index=1 idle="button/button_n_01.png" clickse="se/se_pop.mp3" onclick="aa"
+@addto index=1 target=basic_layer pos=[500,100]
+@sprite file="sprite/hua.png" index=2
+@addto index=2 pos=[0,0] target=basic_layer
+@textsprite text="华强买瓜"  index=3  size=50
+@addto index=3 target=basic_layer pos=[500,0]
+@sprite file="sprite/西瓜.png" index=4
+@addto index=4 target=basic_layer pos=[600,600]
+//亮度测试
+//@effect mode="BC" target=0 bright=-50
+@wait time=3000
+@action mode="moveto" pos=[400,200] time=1000 target=4
+@waitaction index=4
+@anchor index=4 set="center" 
+@action mode="queue"
+@action mode="rotateto" rotate=360 time=5000 target=4
+@action mode="start" target=4 times=-1
