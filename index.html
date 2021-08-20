@@ -34,32 +34,63 @@
         console.log(game)
 
         function preload() {
-            this.load.image("home", "bg/home.jpg")
+            //  this.load.image("home", "bg/home.jpg")
             this.load.text("main", "bke_src/home.bkscr")
-                // this.load.audio("fsl", "bke_src/fsl.mp3")
+
+            // this.load.audio("fsl", "bke_src/fsl.mp3")
         }
 
         function create() {
-            this.add.image(0, 0, "home").setOrigin(0, 0)
+            var main = game.cache.text.get("main")
+            console.log(main)
+            obk_parse_main(main)
+                //    this.add.image(0, 0, "home").setOrigin(0, 0)
                 //var music = this.sound.add("fsl")
-            var main = this.cache.text.get("main")
-            obk_parser(main)
+                // music.play()
 
-            // music.play()
         }
 
         function update() {}
 
-        function obk_parser(main) {
-            console.log("main.bkscr>\n" + main)
-            var e = new RegExp("@\\w{6}|file", "\g")
-            var main_array = main.split("\n")
-            var line_1 = main_array[0]
-            var a = line_1.match(e)
-            console.log(a)
-                //this.load.image(name, path)
+        //逐行解析
+        function line_parse(code) {
+            //去除空格
+            var pre_do = code.split(" ")
 
-            //sprite
+            function c(e) {
+                return e != " "
+            }
+            //去除数组空格 提取表达式
+            var splited_code = pre_do.filter(c)
+            console.log("关键字数组")
+            console.log(splited_code)
+                //获取参数
+            var para_index
+            var para_file
+            for (var i = 0; i < splited_code.length - 1; i++) {
+                if (splited_code[1].search("index=") > -1) {
+                    para_index = splited_code[1].split("index=")[1]
+                }
+                if (splited_code[2].search("file") > -1) {
+                    para_file = splited_code[2].split("file=")[1]
+                }
+            }
+            console.log(game.load)
+                // game.load.image("home", para_file)
+                //game.add.image(0, 0, "home").setOrigin(0, 0)
+            console.log("index>" + para_index)
+            console.log("file>" + para_file)
+        }
+
+        function obk_parse_main(main) {
+            console.log("main.bkscr>\n" + main)
+            var main_array = main.split("\n")
+            var line1 = main_array[0]
+            var code = line1
+            lines = 2
+            for (var i = 0; i < 1; i++) {
+                line_parse(line1)
+            }
         }
 
         function obk_eval(value) {
