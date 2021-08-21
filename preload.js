@@ -36,15 +36,15 @@ $(function()
         return _result
     }
     //添加扩展方法
-    $.extend({get:get_data})
+    $.extend({_get_data:get_data})
        //解析开始 入口main
         function obk_parse_main(main,obk_url) 
         {
             var result=[]
             console.log(obk_url+">\n" + main)
             var main_array = main.split("\n")
-            console.log("预处理换行数组>")
-            console.log(main_array)
+           // console.log("预处理换行数组>")
+            //console.log(main_array)
             for(var i=0;i<main_array.length;i++)
             {
                 var line = main_array[i]
@@ -52,9 +52,8 @@ $(function()
                 //结果组合
                 result.push(parse_result)
             }
-            console.log("结果数组")
-            if(result)
-            console.log(result)
+            //console.log("结果数组")
+            //console.log(result)
             return result
         }
          //逐行解析
@@ -68,8 +67,8 @@ $(function()
             }
             //去除数组空格 提取表达式
             var splited_code = pre_do.filter(c)
-            console.log("关键字数组")
-            console.log(splited_code)
+           // console.log("关键字数组")
+            //console.log(splited_code)
             //各种命令参数
             var para_cmd
             var para_index
@@ -99,8 +98,8 @@ $(function()
                     {
                         var next = splited_code[1].split("file=")[1]
                         var next2 = splited_code[2].split("label=")[1]
-                        console.log(next)
-                        console.log(next2)
+                       // console.log(next)
+                        //console.log(next2)
                        //重构
                       //   para_file = str_utils(next)
                      //    para_label = str_utils(next2)
@@ -108,8 +107,8 @@ $(function()
                         p_final.push(para_cmd)
                         p_final.push(next)
                         p_final.push(next2)
-                        console.log("检测到Jump")
-                        console.log(p_final)
+                        //console.dubug("解析器检测到Jump")
+                        //console.log(p_final)
                         return p_final
                     }
                 }

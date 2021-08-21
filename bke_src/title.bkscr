@@ -1,4 +1,4 @@
-*title
+title
 @sprite file="image/title.jpg" index=0 
 @trans mode="universal" rule="mask/001.png" time=3000 
 @addto index=0 target=basic_layer zorder=0

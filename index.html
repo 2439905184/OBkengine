@@ -23,10 +23,10 @@
             {
                 obk_url= "bke_src/main.bkscr"
             }
-           $.get(function(rs)
+           $._get_data(function(rs)
            {
-               console.log("回调结果>")
-               console.log(rs)
+             //  console.log("回调结果>")
+             //  console.log(rs)
                back(rs)
                $("h1").remove()
            })
@@ -59,20 +59,21 @@
         //每次get之后的回调函数 ajax异步
         function back(rs)
         {
-            console.log("回调到最外面>")
-            console.log(rs)
+            //console.log("回调到最外面>")
+           // console.log(rs)
             if(rs[0][0]=="@jump")
             {
-                console.log("跳转命令")
-                console.log(rs[0])
+                //console.log("跳转命令")
+                //console.log(rs[0])
                 var jump_file=rs[0][1]
+                console.debug("跳转文件",jump_file)
+                obk_url="bke_src/title.bkscr"
                 //递归bug fix
-                $.get(function(rs)
+                $._get_data(function(rs)
                     {       
-                        obk_url="bke_src/title.bkscr"
                         console.log("回调结果>")
                         console.log(rs)
-                        obk_state = "pause"
+                        //obk_state = "pause"
                         back(rs)
                     })
                 obk_state="pause"
