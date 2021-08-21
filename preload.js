@@ -27,10 +27,10 @@ $(function()
         //备份{url:"bke_src/main.bkscr" //从这里请求脚本
         $.ajax({url:obk_url,type:"GET",dataType:"text",success:function(result)
         {
-           _result=obk_parse_main(result)
+           _result=obk_parse_main(result,obk_url)
             //执行回调
-            console.log("回调0")
-            console.log(_result)
+            //console.log("回调0")
+            //console.log(_result)
             callback(_result)
         }})
         return _result
@@ -38,10 +38,10 @@ $(function()
     //添加扩展方法
     $.extend({get:get_data})
        //解析开始 入口main
-        function obk_parse_main(main) 
+        function obk_parse_main(main,obk_url) 
         {
             var result=[]
-            console.log("main.bkscr>\n" + main)
+            console.log(obk_url+">\n" + main)
             var main_array = main.split("\n")
             console.log("预处理换行数组>")
             console.log(main_array)
