@@ -19,6 +19,10 @@
         /*首先，先运行jquery ajax， 异步获得源代码，处理完了之后再回调给back函数 再启动phaser*/
          $(function()
         {
+            if(obk_state=="init")
+            {
+                obk_url= "bke_src/main.bkscr"
+            }
            $.get(function(rs)
            {
                console.log("回调结果>")
@@ -27,35 +31,51 @@
                $("h1").remove()
            })
         })
+        //init phaser
+        //pharser3
+        var config = {type: Phaser.AUTO,width: 800,height: 600,
+                        scene: 
+                        {
+                            preload: preload,
+                            create: create
+                        }
+                    }
+        var game = new Phaser.Game(config)
+        function preload() 
+        {
+            this.load.audio("loading","qmxz.mp3")
+            this.load.image("obk","obkengine.png")
+            /*if(rs[0][0]=="@jump")
+            {
+                console.log("跳转命令")
+                console.log(rs[0])
+                var jump_file=rs[0][1]
+                obk_state="jump"
+                  //递归bug
+                $.get(function(rs)
+                 {       
+                    url=jump_file
+                    console.log("回调结果>")
+                    console.log(rs)
+                    back(rs)
+                     })
+            }*/
+         }
+        function create() 
+        {
+                this.add.image(0,0,"obk").setOrigin(0,0)
+                /*
+                this.add.image(0, 0, "home").setOrigin(0, 0)*/
+                var music=this.sound.add("loading")
+                music.play()
+        }
+        function update() {} 
+        //每次get之后的回调函数 ajax异步
         function back(rs)
         {
             console.log("回调到最外面>")
             console.log(rs)
-            //pharser3
-            var config = 
-            {
-                type: Phaser.AUTO,
-                width: 800,
-                height: 600,
-                scene: 
-                {
-                    preload: preload,
-                    create: create
-                }
-            }
-            var game = new Phaser.Game(config)
-            function preload() 
-            {
-                this.load.image("home",rs[0][1])
-                this.load.audio("fsl","bke_src/"+rs[1][1])
-            }
-            function create() {
-                this.add.image(0, 0, "home").setOrigin(0, 0)
-                var music=this.sound.add("fsl")
-                music.play()
-            }
-            function update() {} 
-            }
+        }
     </script>
 </body>
 

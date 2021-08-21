@@ -1,9 +1,6 @@
-    /*//取出数据
-    get(function(rs)
-    {
-        console.log("rs "+rs)
-        window.img=rs
-    })*/
+//避免递归溢出的状态变量
+var obk_state="init"
+var obk_url //用于请求bke脚本文件
 //去除字符串两端引号 
 function str_utils(value)
 {
@@ -20,19 +17,21 @@ function str_utils(value)
     }
     return result
 }
+
 $(function()
 {
-    //获得数据 
+    //获得数据 回调参数，url参数
     function get_data(callback)
     {
         var _result=""
-        $.ajax({url:"bke_src/home.bkscr",type:"GET",dataType:"text",success:function(result)
+        //备份{url:"bke_src/main.bkscr" //从这里请求脚本
+        $.ajax({url:obk_url,type:"GET",dataType:"text",success:function(result)
         {
            _result=obk_parse_main(result)
             //执行回调
             console.log("回调0")
             console.log(_result)
-           callback(_result)
+            callback(_result)
         }})
         return _result
     }
@@ -54,6 +53,7 @@ $(function()
                 result.push(parse_result)
             }
             console.log("结果数组")
+            if(result)
             console.log(result)
             return result
         }
@@ -70,10 +70,14 @@ $(function()
             var splited_code = pre_do.filter(c)
             console.log("关键字数组")
             console.log(splited_code)
-            //获取参数
+            //各种命令参数
             var para_cmd
             var para_index
             var para_file
+            var para_label
+            //每个if里执行 
+            var p_final=[]
+            //在这里解析对应的命令
             for (var i = 0; i < splited_code.length ; i++) 
             {
                 if(splited_code[0]=="@bgm")
@@ -82,7 +86,31 @@ $(function()
                     if(splited_code[1].search("file=")>-1)
                     {
                         var next=splited_code[1].split("file=")[1]
+                        var next2 = splited_code[2].split("label=")[1]
+                      //重构 
                         para_file = str_utils(next)
+                        para_label = str_utils(next2)
+                    }
+                }
+                if(splited_code[0]=="@jump")
+                {
+                    para_cmd="@jump"
+                    if(splited_code[1].search("file=")>-1)
+                    {
+                        var next = splited_code[1].split("file=")[1]
+                        var next2 = splited_code[2].split("label=")[1]
+                        console.log(next)
+                        console.log(next2)
+                       //重构
+                      //   para_file = str_utils(next)
+                     //    para_label = str_utils(next2)
+
+                        p_final.push(para_cmd)
+                        p_final.push(next)
+                        p_final.push(next2)
+                        console.log("检测到Jump")
+                        console.log(p_final)
+                        return p_final
                     }
                 }
                 //代码待重构
@@ -105,8 +133,8 @@ $(function()
             result.push(para_cmd)
             //result.push(para_index)
             result.push(para_file)
-            console.log("单行解析结果>")
-            console.log(result)
+            //console.log("单行解析结果>")
+            //console.log(result)
             return result
         }
 })

@@ -10,3 +10,7 @@ doSomething("回调函数",function()
 {
     alert("匿名函数回调")
 })
+var a=function(a,b)
+{
+
+}
