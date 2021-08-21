@@ -14,21 +14,23 @@
 </head>
 
 <body>
+    <h1 id="loading">loading...</h1>
     <script>
+        /*首先，先运行jquery ajax， 异步获得源代码，处理完了之后再回调给back函数 再启动phaser*/
          $(function()
         {
            $.get(function(rs)
            {
-               console.log("回调结果 "+rs)
-               window.img=rs
+               console.log("回调结果>")
+               console.log(rs)
                back(rs)
+               $("h1").remove()
            })
         })
         function back(rs)
         {
-            console.log("回调到最外面 "+rs)
-            window.img=rs
-            console.log("全局变量 "+window.img)
+            console.log("回调到最外面>")
+            console.log(rs)
             //pharser3
             var config = 
             {
@@ -44,13 +46,13 @@
             var game = new Phaser.Game(config)
             function preload() 
             {
-                console.log(window.img.trim())
-               /* var aa=escape(window.img)
-                console.log("aa "+aa)*/
-                this.load.image("home",window.img)
+                this.load.image("home",rs[0][1])
+                this.load.audio("fsl","bke_src/"+rs[1][1])
             }
             function create() {
                 this.add.image(0, 0, "home").setOrigin(0, 0)
+                var music=this.sound.add("fsl")
+                music.play()
             }
             function update() {} 
             }
