@@ -1,5 +1,6 @@
 //避免递归溢出的状态变量
 var obk_state="init"
+var obk_bg=""
 var obk_url //用于请求bke脚本文件
 //去除字符串两端引号 
 function str_utils(value)
@@ -33,7 +34,7 @@ $(function()
             //console.log(_result)
             callback(_result)
         }})
-        return _result
+        //return _result
     }
     //添加扩展方法
     $.extend({_get_data:get_data})
@@ -72,13 +73,19 @@ $(function()
             //各种命令参数
             var para_cmd
             var para_index
-            var para_file
+            var p_file
             var para_label
             //每个if里执行 
             var p_final=[]
             //在这里解析对应的命令
             for (var i = 0; i < splited_code.length ; i++) 
             {
+                //存在标签
+                if(splited_code[0].search("\\*")>-1)
+                {
+                    para_label = splited_code[0]
+                    p_final.push(para_label)
+                }
                 if(splited_code[0]=="@bgm")
                 {
                     para_cmd="@bgm"
@@ -87,7 +94,7 @@ $(function()
                         var next=splited_code[1].split("file=")[1]
                         var next2 = splited_code[2].split("label=")[1]
                       //重构 
-                        para_file = str_utils(next)
+                        p_file = str_utils(next)
                         para_label = str_utils(next2)
                     }
                 }
@@ -101,11 +108,10 @@ $(function()
                        // console.log(next)
                         //console.log(next2)
                        //重构
-                      //   para_file = str_utils(next)
+                        p_file = str_utils(next)
                      //    para_label = str_utils(next2)
-
                         p_final.push(para_cmd)
-                        p_final.push(next)
+                        p_final.push(p_file)
                         p_final.push(next2)
                         //console.dubug("解析器检测到Jump")
                         //console.log(p_final)
@@ -116,24 +122,26 @@ $(function()
                 if(splited_code[0]=="@sprite")
                 {
                     para_cmd="@sprite"
+                    p_final.push(para_cmd)
                     if (splited_code[1].search("index=") > -1) 
                     {
                         para_index = splited_code[1].split("index=")[1]
                     }
-                    if (splited_code[2].search("file") > -1) 
+                    if (splited_code[2].search("file")>-1) 
                     {
                         var next=splited_code[2].split("file=")[1]
-                        //去除引号
-                        para_file = str_utils(next)
+                        p_file = str_utils(next)
+                        console.log(p_file)
+                        p_final.push(p_file)
+                        return p_final
                     }
                 }
+                else
+                {
+                    break
+                }
             }
-            var result=[]
-            result.push(para_cmd)
-            //result.push(para_index)
-            result.push(para_file)
-            //console.log("单行解析结果>")
-            //console.log(result)
-            return result
+            //var result=[]
+            return p_final
         }
 })
