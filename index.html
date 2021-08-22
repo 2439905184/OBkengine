@@ -9,13 +9,14 @@
     <script src="jquery.min.js"></script>
     <!-- <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js">    </script> -->
     <script src="preload.js"></script>
+    <script src="module/macro.js"></script>
     <script src="module/label.js"></script>
     <script src="phaser.min.js"></script>
 </head>
 
 <body>
     <h1 id="loading">loading... please click to start</h1>
-    <script>
+    <!--  <script>
         //phaser预加载太耗费时间，需要开多线程
         /*首先，先运行jquery ajax， 异步获得源代码，处理完了之后再回调给back函数 再启动phaser*/
         $(function() {
@@ -69,13 +70,17 @@
             display_text.setDepth(1)
                 //全局鼠标事件
             this.input.on('pointerdown', function(pointer) {
-                obk_text = obk_texts[obk_clicks]
+                //去除[p]
+                obk_text = obk_texts[obk_clicks] //.replace(/\[|]|p/g, "")
+                obk_clicks += 1
                 if (obk_text != null) {
-                    obk_clicks += 1
+
                     console.log('down' + obk_clicks)
                     console.log(obk_text)
                     display_text.setText(obk_text)
                     console.log("按下了鼠标")
+                } else {
+                    console.error("执行到文字末尾")
                 }
 
             }, this);
@@ -136,7 +141,7 @@
             }
             obk_state = "change_scene"
         }*/
-    </script>
+    </script>-->
 </body>
 
 </html>

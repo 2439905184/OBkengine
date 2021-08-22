@@ -1,7 +1,7 @@
 *title
 @sprite index=0 file="image/title.jpg" 
 @bgm file="fsl.mp3"
-你好世界华强买瓜
-obkengine
-3.1415926
+你好世界华强买瓜[p]
+obkengine[p]
+3.1415926[p]
 @sprite index=0 file="obkengine.png"

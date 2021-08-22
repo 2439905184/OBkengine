@@ -16,7 +16,17 @@ function str_utils(value) {
     }
     return result
 }
+/**提取关键字,空格分词，对于每一行去掉了[ ] 的代码 **/
+//code:传入的一行参数 如 @sprite index=0 或者 import file="extend.bkscr"
+function array_extract(code) {
+    var pre_do = code.split(" ")
 
+    function c(e) {
+        return e != " "
+    }
+    var result = pre_do.filter(c)
+    return result
+}
 $(function() {
     //获得数据 回调参数，url参数
     function get_data(callback) {
