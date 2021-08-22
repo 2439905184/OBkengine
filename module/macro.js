@@ -1,20 +1,25 @@
-//解析宏的注册关系 macro.bkscr
+//解析宏的注册关系 macro.bkscr //宏解析器暂时不支持bke的phaser语法
 function obk_parse_macro_main(code) {
     //要注册的命令 
     var result_import = []
     var lines = code.split("\n")
     console.log(code)
     console.log(lines)
+        //是否遇到//注释
+    var process = true
     for (var i = 0; i < lines.length; i++) {
         var line = lines[i]
         if (line == "*register") {
             var mark_reg_begin = true
         }
         if (line.search("//") > -1) {
-            //注释代码，不处理
+            console.log("注释代码，不处理")
+            process = true
+        } else {
+            process = false
         }
-        //处理[ ]中的命令
-        if (line.search("\\[") > -1) {
+        //处理[ ]中的命令 遇到//不处理
+        if (line.search("\\[") > -1 && process == false) {
             //预处理 去掉中括号 取词
             var pre_code1 = line.replace(/\[|]/g, "")
             console.log(pre_code1)
@@ -60,18 +65,19 @@ function next(data) {
     get_macro_codes(macros)
         //obk_parse_macro(macros)
 }
+//程序入口
 get_data(next)
     //得到宏定义和数据
 function get_macro_codes(files) {
     var _result
     for (var i = 0; i < files.length; i++) {
         $.ajax({
-            url: "src/macro.bkscr",
+            url: "src/" + files[i],
             type: "GET",
             dataType: "text",
             success: function(result) {
                 _result = result
-                console.log("每个宏的数据\n" + _result)
+                console.log(files + "的数据\n" + _result)
                     // callback(_result)
             }
         })
@@ -81,5 +87,3 @@ function get_macro_codes(files) {
 function next2(result) {
 
 }
-
-//get_macro_codes(next2)
