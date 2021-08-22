@@ -5,29 +5,23 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>obkengine</title>
+    <title>obkengine v0.1 alpha</title>
     <script src="jquery.min.js"></script>
     <!-- <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js">    </script> -->
     <script src="preload.js"></script>
-    <!-- <script src="test.js"></script> -->
+    <script src="module/label.js"></script>
     <script src="phaser.min.js"></script>
 </head>
 
 <body>
-    <h1 id="loading">loading...</h1>
+    <h1 id="loading">loading... please click to start</h1>
     <script>
+        //phaser预加载太耗费时间，需要开多线程
         /*首先，先运行jquery ajax， 异步获得源代码，处理完了之后再回调给back函数 再启动phaser*/
         $(function() {
                 if (obk_state == "init") {
                     obk_url = "bke_src/main.bkscr"
                 }
-                /*$._get_data(function(rs)
-                {
-                  //  console.log("回调结果>")
-                  //  console.log(rs)
-                  //这个回调会卡住phaser
-                    //back(rs)
-                })*/
             })
             //init phaser
             //pharser3
@@ -37,6 +31,7 @@
             height: 600,
             scene: {
                 preload: preload,
+                jump_callback,
                 create: create, //场景
             }
         }
@@ -44,88 +39,101 @@
         var my_phaser
         var cursors
         var obk_logo
+        var obk_imgs = []
+            //phaser中的对象
+        var display_text
 
         function preload() {
-            cursors = this.input.keyboard.createCursorKeys();
-            /*this.add.text(0, 0, game.getTime().toString(), { font: '"Press Start 2P"' });
-            console.log(game.getTime())*/
             if (obk_state == "init") {
                 my_phaser = this
                 this.load.audio("loading", "qmxz.mp3")
-                obk_logo = this.load.image("obk", "obkengine.png")
-                console.log(obk_logo)
+                this.load.image("obk", "obkengine.png")
+                    // console.log(obk_logo)
             }
-            /* if(obk_state=="back_1")
-             {
-                 // my_phaser.load.audio()
-             }*/
+            if (obk_state == "jump") {
+                this.load.image("home", obk_imgs[0])
+                    //  this.load.audio("f", "bke_src/fsl.mp3")
+            }
+            if (obk_state == "change_text") {
+                this.load.image("obk", "obkengine.png")
+            }
         }
 
         function create() {
-            var spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-            spaceKey.on('down', function(key, event) {
-                // event.stopPropagation();
-                alert("按下了空格")
-            });
+            /*this.input.on('pointerdown', function(pointer) {
+                obk_clicks += 1
+                console.log('down' + obk_clicks)
+                console.log(obk_texts[obk_clicks])
+                obk_text = obk_texts[obk_clicks]
+                    //obk_state = "change_text"
+                    //   this.add.image(pointer.x, pointer.y, 'logo');
+            }, this);*/
             if (obk_state == "init") {
-                this.add.image(0, 0, "obk").setOrigin(0, 0)
+                obk_logo = this.add.image(0, 0, "obk").setOrigin(0, 0)
                 var music = this.sound.add("loading")
                 music.on("complete", function() {
                     console.log("完成音乐播放，加载游戏")
-                        //应该等待音乐播放完成 再回调
+                    obk_logo.setAlpha(0.5)
+                    obk_logo.destroy()
                     $._get_data(back)
-
                 })
                 music.play()
-
             }
-            /* if(obk_state=="change_scene")
-             {
-              this.add.image(0, 0, "home").setOrigin(0, 0)
-             }*/
+            if (obk_state == "jump") {
+                this.add.image(400, 300, "home")
+                    // var music = this.sound.add("f").play()
+                display_text = this.add.text(0, 0, obk_texts[obk_clicks]).setStyle(obk_text_style)
+                display_text.on("pointerdown", function() {
+                    console.warn("改变文字！")
+                }, this)
+            }
+            if (obk_state == "change_scene") {
+                this.add.text(0, 0, obk_text).setStyle(obk_text_style)
+                this.add.image(400, 300, "obk")
+            }
         }
 
         function update() {}
         //每次get之后的回调函数 ajax异步
         function back(rs) {
             //每次get之后的回调
-            obk_state = "back_1"
-            console.log("回调" + rs)
+            // obk_state = "back_1"
+            console.log("回调结果")
             console.log(rs)
-                // console.log(rs)
             if (rs[0][0] == "@jump") {
-                console.log("@jump" + rs[0][1])
+                console.log("@jump " + rs[0][1])
+                    //跳转到下一个场景
                 var jump_file = "bke_src/" + rs[0][1]
                 obk_url = jump_file
                     //jump事件回调
-                $._get_data(jump_callback)
-                obk_state = "pause"
+                    // $._get_data(jump_callback)
             }
-            /* if(obk_state=="pause")
-            {
-             console.log("加载title.bkscr") 
-             console.log(rs)
-            }
-        */
         }
 
         function jump_callback(rs) {
             console.log("jump事件回调")
             console.log(rs)
-            for (var i = 0; i < rs.length; i++) {
+            obk_state = "jump"
+            var tmp_img = "bke_src/" + rs[1][2]
+            console.log(tmp_img)
+            obk_imgs.push(tmp_img)
+            console.log("回调文字")
+            console.log(obk_texts)
+            my_phaser.scene.start()
+        }
+        /*for (var i = 0; i < rs.length; i++) {
                 var tmp = rs[i]
                 if (tmp.length > 1) {
                     var cmd = tmp[0]
                     var file = "bke_src/" + tmp[1]
-                    obk_bg = file
+                    obk_bg = str_utils(file)
                     console.log(obk_bg)
-                    obk_logo.destroy()
                     my_phaser.load.image("home", obk_bg)
                     my_phaser.add.image(400, 300, "home")
                 }
             }
             obk_state = "change_scene"
-        }
+        }*/
     </script>
 </body>
 
