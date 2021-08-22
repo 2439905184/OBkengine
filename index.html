@@ -24,7 +24,7 @@
                 }
             })
             //init phaser
-            //pharser3
+            //pharser3.55.2
         var config = {
             type: Phaser.AUTO,
             width: 800,
@@ -42,32 +42,43 @@
         var obk_imgs = []
             //phaser中的对象
         var display_text
+        var obk_basic_layer
+        var obk_msg_layer
+        var obk_text_layer
+        var obk_home
 
         function preload() {
+
             if (obk_state == "init") {
                 my_phaser = this
                 this.load.audio("loading", "qmxz.mp3")
                 this.load.image("obk", "obkengine.png")
+                obk_basic_layer = this.add.layer()
+                obk_text_layer = this.add.layer()
                     // console.log(obk_logo)
             }
             if (obk_state == "jump") {
                 this.load.image("home", obk_imgs[0])
+                    //                obk_home = this.load.image("home", obk_imgs[0])
                     //  this.load.audio("f", "bke_src/fsl.mp3")
-            }
-            if (obk_state == "change_text") {
-                this.load.image("obk", "obkengine.png")
             }
         }
 
         function create() {
-            /*this.input.on('pointerdown', function(pointer) {
-                obk_clicks += 1
-                console.log('down' + obk_clicks)
-                console.log(obk_texts[obk_clicks])
+            display_text = this.add.text(0, 0, "null").setStyle(obk_text_style)
+            display_text.setDepth(1)
+                //全局鼠标事件
+            this.input.on('pointerdown', function(pointer) {
                 obk_text = obk_texts[obk_clicks]
-                    //obk_state = "change_text"
-                    //   this.add.image(pointer.x, pointer.y, 'logo');
-            }, this);*/
+                if (obk_text != null) {
+                    obk_clicks += 1
+                    console.log('down' + obk_clicks)
+                    console.log(obk_text)
+                    display_text.setText(obk_text)
+                    console.log("按下了鼠标")
+                }
+
+            }, this);
             if (obk_state == "init") {
                 obk_logo = this.add.image(0, 0, "obk").setOrigin(0, 0)
                 var music = this.sound.add("loading")
@@ -81,15 +92,6 @@
             }
             if (obk_state == "jump") {
                 this.add.image(400, 300, "home")
-                    // var music = this.sound.add("f").play()
-                display_text = this.add.text(0, 0, obk_texts[obk_clicks]).setStyle(obk_text_style)
-                display_text.on("pointerdown", function() {
-                    console.warn("改变文字！")
-                }, this)
-            }
-            if (obk_state == "change_scene") {
-                this.add.text(0, 0, obk_text).setStyle(obk_text_style)
-                this.add.image(400, 300, "obk")
             }
         }
 
@@ -106,7 +108,7 @@
                 var jump_file = "bke_src/" + rs[0][1]
                 obk_url = jump_file
                     //jump事件回调
-                    // $._get_data(jump_callback)
+                $._get_data(jump_callback)
             }
         }
 
